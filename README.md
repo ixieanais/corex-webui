@@ -41,8 +41,8 @@ cd corex-webui
 pip install -r requirements.txt --upgrade
 
 # Launch server
-python server.py
-# You can also just run `server.py`
+python main.py
+# You can also just run `main.py`
 
 # Install random model
 ollama pull llama3:8b
