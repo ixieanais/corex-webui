@@ -1,6 +1,6 @@
 from requests import get
 from bs4 import BeautifulSoup
-from ..utils import get_useragent
+from utils import get_useragent
 
 
 def _request(query):
@@ -29,11 +29,11 @@ def search(query: str) -> list[dict[str, str]]:
         title_tag = link.find("a", class_="result__a")
         url_tag = link.find("a", class_="result__url")
         snippet_tag = link.find("a", class_="result__snippet")
-        
+
         title = title_tag.text if title_tag else None
         url = url_tag.text.strip() if url_tag else None
         snippet = snippet_tag.text if snippet_tag else None
-        
+
         if title and url and snippet:
             results.append({"title": title, "url": url, "snippet": snippet})
 

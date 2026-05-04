@@ -1,7 +1,7 @@
 import sqlite3
 import time
 import os
-from ..config import DATA_DIR
+from config import DATA_DIR
 
 os.makedirs(DATA_DIR, exist_ok=True)
 file_name = f"{DATA_DIR}/data.db"

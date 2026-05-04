@@ -2,13 +2,14 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import RedirectResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-from .config import STATIC_DIR, TEMPLATES_DIR
-from .services.generator import text_generation
-from .services.database import *
-from .schemas import *
+from config import STATIC_DIR, TEMPLATES_DIR
+from services.generator import text_generation
+from services.database import *
+from schemas import *
 import uuid
 import ollama
 import asyncio
+import uvicorn
 
 
 app = FastAPI()
@@ -93,3 +94,7 @@ async def not_found(request: Request, exc: HTTPException):
 app.add_exception_handler(exc_class_or_status_code=404, handler=not_found)
 api.add_exception_handler(exc_class_or_status_code=404, handler=not_found)
 app.mount(path="/api", app=api)
+
+
+if __name__ == "__main__":
+    uvicorn.run("app:app", host="127.0.0.1", port=8080)
