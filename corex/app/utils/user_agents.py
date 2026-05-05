@@ -1,7 +1,7 @@
 import random
 
+
 def get_useragent():
-    """PyPI: googlesearch-python"""
     lynx_version = f"Lynx/{random.randint(2, 3)}.{random.randint(8, 9)}.{random.randint(0, 2)}"
     libwww_version = f"libwww-FM/{random.randint(2, 3)}.{random.randint(13, 15)}"
     ssl_mm_version = f"SSL-MM/{random.randint(1, 2)}.{random.randint(3, 5)}"

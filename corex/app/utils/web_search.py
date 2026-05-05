@@ -1,6 +1,6 @@
 from requests import get
 from bs4 import BeautifulSoup
-from utils import get_useragent
+from utils.user_agents import get_useragent
 
 
 def _request(query):

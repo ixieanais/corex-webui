@@ -1,6 +1,6 @@
 from ollama import AsyncClient
-from .web_search import search
-from .database import update_assistant_message
+from utils import search
+from database import update_assistant_message
 
 
 async def text_generation(
@@ -30,12 +30,12 @@ async def text_generation(
         messages = []
         if system_msg:
             messages.append({"role": "system", "content": system_msg})
-        
+
         messages += [{"role": r, "content": c} for r,c in chat_history]
-        
+
         if results:
             messages.append({"role": "user", "type": "search", "content": f"Search results: {results}"})
-        
+
         async for chunk in await client.chat(
             model=model,
             messages=messages,

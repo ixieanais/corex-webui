@@ -1,10 +1,13 @@
+import os
 import sqlite3
 import time
-import os
+
 from config import DATA_DIR
+
 
 os.makedirs(DATA_DIR, exist_ok=True)
 file_name = f"{DATA_DIR}/data.db"
+
 
 def create_db():
     database = sqlite3.connect(file_name)
@@ -25,7 +28,10 @@ def create_db():
     )
     database.commit()
     database.close()
+
+
 create_db()
+
 
 def chat_create(id: str, name: str, message: str) -> None:
     database = sqlite3.connect(file_name)
@@ -33,6 +39,7 @@ def chat_create(id: str, name: str, message: str) -> None:
     database.execute("INSERT OR IGNORE INTO chat_history VALUES (?, ?, ?, ?)", (id, 1, "user", message))
     database.commit()
     return database.close()
+
 
 def insert_user_message(id: str, message: str) -> None:
     database = sqlite3.connect(file_name)
@@ -42,6 +49,7 @@ def insert_user_message(id: str, message: str) -> None:
     database.commit()
     return database.close()
 
+
 def insert_assistant_message(id: str) -> None:
     database = sqlite3.connect(file_name)
     message_order = database.execute("SELECT message_order FROM chat_history WHERE id = ? ORDER BY message_order DESC", (id,)).fetchone()[0]
@@ -49,6 +57,7 @@ def insert_assistant_message(id: str) -> None:
     database.execute("UPDATE chats SET last_interaction = ? WHERE id = ?", (time.time(), id))
     database.commit()
     return database.close()
+
 
 def update_assistant_message(id: str, message: str) -> None:
     database = sqlite3.connect(file_name)
@@ -58,11 +67,13 @@ def update_assistant_message(id: str, message: str) -> None:
     database.commit()
     return database.close()
 
+
 def chat_rename(id: str, name: str) -> None:
     database = sqlite3.connect(file_name)
     database.execute("UPDATE chats SET name = ? WHERE id = ?", (name, id))
     database.commit()
     return database.close()
+
 
 def chat_delete(id: str) -> None:
     database = sqlite3.connect(file_name)
@@ -71,17 +82,20 @@ def chat_delete(id: str) -> None:
     database.commit()
     return database.close()
 
+
 def get_chats() -> list[tuple[str]]:
     database = sqlite3.connect(file_name)
     chats = database.execute("SELECT id, name FROM chats ORDER BY last_interaction DESC").fetchall()
     database.close()
     return chats
 
+
 def get_chat_history(id: str) -> list[tuple[str]]:
     database = sqlite3.connect(file_name)
     chat_history = database.execute("SELECT role, content FROM chat_history WHERE id = ? ORDER BY message_order ASC", (id,)).fetchall()
     database.close()
     return chat_history
+
 
 def get_chat_title(id: str) -> str:
     database = sqlite3.connect(file_name)
