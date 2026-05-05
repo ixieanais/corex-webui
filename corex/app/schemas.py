@@ -7,7 +7,6 @@ class CreateChatData(BaseModel):
 
 
 class RenameChatData(BaseModel):
-    id: str
     name: str
 
 

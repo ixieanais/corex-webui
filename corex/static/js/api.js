@@ -1,5 +1,5 @@
 async function getChatsDB() {
-    const response = await fetch("/api/get_chats", {
+    const response = await fetch("/api/v1/chats", {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -10,7 +10,7 @@ async function getChatsDB() {
 
 
 async function getModelsDB() {
-    const response = await fetch("/api/get_models", {
+    const response = await fetch("/api/v1/models", {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -21,7 +21,7 @@ async function getModelsDB() {
 
 
 async function chatCreateDB(chatName, message) {
-    const response = await fetch("/api/create_chat", {
+    const response = await fetch("/api/v1/chats", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
@@ -33,19 +33,19 @@ async function chatCreateDB(chatName, message) {
 
 
 async function chatRenameDB(chatId, chatName) {
-    const response = await fetch("/api/rename_chat", {
+    const response = await fetch(`/api/v1/chats/${chatId}`, {
         method: "PATCH",
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({id: chatId, name: chatName})
+        body: JSON.stringify({name: chatName})
     });
     return await response.json().catch(() => {});
 }
 
 
 async function chatDeleteDB(chatId) {
-    const response = await fetch(`/api/delete_chat/${chatId}`, {
+    const response = await fetch(`/api/v1/chats/${chatId}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"
@@ -56,7 +56,7 @@ async function chatDeleteDB(chatId) {
 
 
 async function getChatTitleDB(chatId) {
-    const response = await fetch(`/api/get_chat_title/${chatId}`, {
+    const response = await fetch(`/api/v1/chats/${chatId}/title`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -67,7 +67,7 @@ async function getChatTitleDB(chatId) {
 
 
 async function getChatHistoryDB(chatId) {
-    const response = await fetch(`/api/get_chat_history/${chatId}`, {
+    const response = await fetch(`/api/v1/chats/${chatId}`, {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -78,7 +78,7 @@ async function getChatHistoryDB(chatId) {
 
 
 async function insertUserMessageDB(chatId, message) {
-    const response = await fetch("/api/insert_user_message", {
+    const response = await fetch("/api/v1/insert_user_message", {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

@@ -4,11 +4,11 @@ import ollama
 from fastapi import APIRouter
 
 
-router = APIRouter()
+router = APIRouter(tags=["models"])
 
 
-@router.get("/get_models")
-async def api_get_models():
+@router.get("/models")
+async def get_models():
     loop = asyncio.get_event_loop()
     try:
         models_list = await loop.run_in_executor(None, ollama.list)

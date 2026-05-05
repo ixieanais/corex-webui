@@ -9,7 +9,7 @@ from schemas import ChatRequest
 router = APIRouter(tags=["assistant"])
 
 
-@router.post("/assistant_typing")
+@router.post("/assistant/typing")
 async def api_assistant_typing(data: ChatRequest):
     chat_history = database.get_chat_history(data.id)
     database.insert_assistant_message(data.id)

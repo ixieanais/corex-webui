@@ -304,7 +304,7 @@ async function insertAssistantMessage(chatId, searchEnabled) {
         if (model === null) {
             model = "Unknown";
         }
-        const response = await fetch(`/api/assistant_typing`, {
+        const response = await fetch(`/api/v1/assistant/typing`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
