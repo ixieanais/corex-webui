@@ -238,7 +238,7 @@ sendButton.addEventListener("click", async (e) => {
         return;
     }
     const chatId = window.location.pathname.split("/")[2];
-    await insertUserMessageDB(chatId, message);
+    await insertUserMessage(chatId, message);
     controller = new AbortController();
     insertAssistantMessage(chatId, searchEnabled);
 });
@@ -278,82 +278,10 @@ searchButton.addEventListener("click", () => {
 
 checkSearch();
 
-async function getChatsDB() {
-    const response = await fetch("/api/get_chats", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
-    return await response.json().catch(() => {});
-}
-
-async function getModelsDB() {
-    const response = await fetch("/api/get_models", {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
-    return await response.json().catch(() => {});
-}
-
-async function chatCreateDB(chatName, message) {
-    const response = await fetch("/api/create_chat", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({name: chatName, message: message})
-    });
-    return await response.json().catch(() => {});
-}
-
-async function chatRenameDB(chatId, chatName) {
-    const response = await fetch("/api/rename_chat", {
-        method: "PATCH",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify({id: chatId, name: chatName})
-    });
-    return await response.json().catch(() => {});
-}
-
-async function chatDeleteDB(chatId) {
-    const response = await fetch(`/api/delete_chat/${chatId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json"
-        },
-    });
-    return await response.json().catch(() => {});
-}
-
-async function getChatTitleDB(chatId) {
-    const response = await fetch(`/api/get_chat_title/${chatId}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
-    return await response.json();
-}
-
-async function getChatHistoryDB(chatId) {
-    const response = await fetch(`/api/get_chat_history/${chatId}`, {
-        method: "GET",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    });
-    return await response.json();
-}
-
 async function insertAssistantMessage(chatId, searchEnabled) {
     sendButton.style.display = "none";
     stopButton.style.display = "flex";
-    
+
     const container = document.createElement("div");
     container.className = "chat-assistant-message-container";
     const assistant_div = document.createElement("div");
@@ -386,8 +314,8 @@ async function insertAssistantMessage(chatId, searchEnabled) {
         });
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
-        
-        
+
+
         let chatHeight = chatContainer.scrollHeight
         let load = false
         while (true) {
@@ -425,14 +353,9 @@ async function insertAssistantMessage(chatId, searchEnabled) {
     }
 }
 
-async function insertUserMessageDB(chatId, message) {
-    const response = await fetch("/api/insert_user_message", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ id: chatId, message: message })
-    });
+async function insertUserMessage(chatId, message) {
+    const response = await insertUserMessageDB(chatId, message);
+
     const container = document.createElement("div");
     container.className = "chat-user-message-container";
 
