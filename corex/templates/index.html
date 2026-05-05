@@ -67,7 +67,7 @@
                         <path d="m 358.5,11 -67,119 65,113 h 136 z m -67,119 h -136 l -136,235 79,136 h 244 l 72,-118 h -88 -181 z"/>
                     </svg>
                 </div>
-                
+
                 <div class="new-chat-textarea-container">
                     <label for="textarea-field">
                         <textarea name="" id="textarea-field" class="new-chat-textarea" placeholder="Send a message"></textarea>
@@ -86,7 +86,7 @@
                         <div id="model-selector-container" class="model-selector-container"></div>
                         <button id="send-button" class="send-button" disabled>
                             <svg width="14" height="14" viewBox="0 0 512 512" fill="black">
-                                <path 
+                                <path
                                 style="fill-opacity:1;stroke:none;stroke-width:61.5999;stroke-linecap:round"
                                 d="m 256,103.56639 c -12.47974,-6e-5 -24.95961,4.78244 -34.52229,14.34494 L 14.343998,325.04504 c -19.1253337,19.12534 -19.1253337,49.91921 1.8e-5,69.04458 19.125334,19.12533 49.919216,19.12533 69.044557,0 L 256,221.47819 428.61143,394.08961 c 19.12534,19.12535 49.91921,19.12534 69.04456,0 19.12534,-19.12536 19.12535,-49.91922 0,-69.04457 L 290.52228,117.91133 C 280.95966,108.34872 268.47973,103.56644 256,103.56639 Z"/>
                             </svg>
@@ -101,6 +101,7 @@
             </div>
         </div>
     </div>
-    <script src="{{ url_for('static', path='/script.js') }}"></script>
+    <script src="{{ url_for('static', path='/js/api.js') }}"></script>
+    <script src="{{ url_for('static', path='/js/script.js') }}"></script>
 </body>
 </html>
