@@ -3,12 +3,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 
-class CreateChatData(BaseModel):
-    name: str
-    message: str
-
-
-class RenameChatData(BaseModel):
+class ChatSchema(BaseModel):
     name: str
 
 
