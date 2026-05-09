@@ -1,19 +1,19 @@
 from ollama import AsyncClient
 from utils import search
-from database import update_assistant_message
+from database import crud
 
 
 async def text_generation(
     chat_id: str,
     model: str,
-    chat_history: list[tuple[str]],
+    history: list[dict],
     system_msg: str | None = None,
     web_search: bool = False,
     agent: bool = False
 ):
     try:
         client = AsyncClient()
-        message = chat_history[-1][1]
+        message = history[-1]["content"]
         results = None
 
         if web_search:
@@ -31,7 +31,7 @@ async def text_generation(
         if system_msg:
             messages.append({"role": "system", "content": system_msg})
 
-        messages += [{"role": r, "content": c} for r,c in chat_history]
+        messages.append({"role": item["role"], "content": item["content"]} for item in history)
 
         if results:
             messages.append({"role": "user", "type": "search", "content": f"Search results: {results}"})
@@ -41,10 +41,10 @@ async def text_generation(
             messages=messages,
             stream=True,
         ):
-            message = chunk.message.content
-            yield message
-            update_assistant_message(chat_id, message)
+            content = chunk.message.content
+            yield content
+            await crud.update_message(chat_id, content)
 
     except Exception as e:
         yield f"ERROR: {e}"
-        update_assistant_message(chat_id, f"ERROR: {e}")
+        await crud.update_message(chat_id, f"ERROR: {e}")

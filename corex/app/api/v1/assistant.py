@@ -1,7 +1,9 @@
+from uuid import uuid4
+
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 
-import database
+from database import crud
 from services.generator import text_generation
 from schemas import ChatRequest
 
@@ -10,15 +12,16 @@ router = APIRouter(tags=["assistant"])
 
 
 @router.post("/assistant/typing")
-async def api_assistant_typing(data: ChatRequest):
-    chat_history = database.get_chat_history(data.id)
-    database.insert_assistant_message(data.id)
+async def api_assistant_typing(schema: ChatRequest):
+    messages = await crud.select_messages(schema.id)
+    id = str(uuid4())
+    await crud.insert_message(id, schema.id, 1, "assistant", "")
     return StreamingResponse(
         text_generation(
-            chat_id=data.id,
-            model=data.model,
-            chat_history=chat_history,
-            web_search=data.search,
+            chat_id=schema.id,
+            model=schema.model,
+            chat_history=messages,
+            web_search=schema.search,
         ),
         media_type="text/event-stream",
     )
