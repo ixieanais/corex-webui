@@ -13,6 +13,7 @@ router = APIRouter(tags=["chats"])
 async def create_chat(schema: ChatSchema):
     id = str(uuid4())
     await crud.insert_chat(id, schema.name)
+    return id
 
 
 @router.get("/chats")
