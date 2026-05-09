@@ -15,10 +15,10 @@ router = APIRouter(tags=["assistant"])
 async def api_assistant_typing(schema: ChatRequest):
     messages = await crud.select_messages(schema.id)
     id = str(uuid4())
-    await crud.insert_message(id, schema.id, 1, "assistant", "")
+    await crud.insert_message(id, schema.id, 2, "assistant", "")
     return StreamingResponse(
         text_generation(
-            chat_id=schema.id,
+            msg_id=id,
             model=schema.model,
             history=messages,
             web_search=schema.search,
