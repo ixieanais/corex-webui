@@ -2,7 +2,7 @@ from fastapi import APIRouter, Request
 from fastapi.responses import RedirectResponse
 from fastapi.templating import Jinja2Templates
 
-from database import get_chats
+from database import crud
 from config import TEMPLATES_DIR
 
 
@@ -17,8 +17,7 @@ async def root_page(request: Request):
 
 @router.get("/chat/{id}")
 async def chat_page(id: str, request: Request):
-    chats = get_chats()
-    for chat in chats:
-        if id in chat:
-            return templates.TemplateResponse(request=request, name="index.html")
+    if await crud.select_chat(id):
+        return templates.TemplateResponse(request=request, name="index.html")
+
     return RedirectResponse("/")
