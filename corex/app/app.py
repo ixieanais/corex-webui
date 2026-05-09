@@ -1,3 +1,5 @@
+from contextlib import asynccontextmanager
+
 import uvicorn
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.responses import RedirectResponse
@@ -6,13 +8,21 @@ from fastapi.staticfiles import StaticFiles
 import config
 from api import router as api_router
 from pages import pages_router
+from database import crud
 
 
 async def not_found(request: Request, exc: HTTPException):
     return RedirectResponse("/")
 
 
-app = FastAPI()
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await crud.create_tables()
+
+    yield
+
+
+app = FastAPI(lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=config.STATIC_DIR), name="static")
 app.include_router(api_router)
 app.include_router(pages_router)
