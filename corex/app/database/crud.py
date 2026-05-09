@@ -1,6 +1,7 @@
 from typing import Union
 
 from sqlalchemy import text
+from sqlalchemy.exc import NoResultFound
 
 from .database import engine, session_factory
 from .models import Base, ChatsOrm, MessagesOrm
@@ -31,8 +32,11 @@ async def select_chat(id: str) -> dict:
     async with session_factory() as session:
         stmt = text("SELECT * FROM chats WHERE id = :id").bindparams(id=id)
         result = await session.execute(stmt)
-        row = result.mappings().one()
-        return dict(row) if row else {}
+        try:
+            row = result.mappings().one()
+            return dict(row)
+        except NoResultFound:
+            return {}
 
 
 async def update_chat(id: str, name: str) -> None:
@@ -76,8 +80,11 @@ async def select_message(id: str) -> dict:
     async with session_factory() as session:
         stmt = text("SELECT * FROM messsages WHERE id = :id").bindparams(id=id)
         result = await session.execute(stmt)
-        row = result.mappings().one()
-        return dict(row) if row else {}
+        try:
+            row = result.mappings().one()
+            return dict(row)
+        except NoResultFound:
+            return {}
 
 
 async def update_message(id: str, content: str) -> None:
