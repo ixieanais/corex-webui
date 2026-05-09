@@ -22,7 +22,7 @@ async def insert_chat(id: str, name: str) -> None:
 
 async def select_chats() -> Union[list[dict], list]:
     async with session_factory() as session:
-        stmt = text("SELECT * FROM chats")
+        stmt = text("SELECT * FROM chats ORDER BY updated_at DESC")
         result = await session.execute(stmt)
         rows = result.mappings().all()
         return [dict(row) for row in rows]
@@ -68,7 +68,7 @@ async def insert_message(
 
 async def select_messages(chat_id: str) -> Union[list[dict], list]:
     async with session_factory() as session:
-        stmt = text("SELECT * FROM messages WHERE chat_id = :chat_id").bindparams(
+        stmt = text("SELECT * FROM messages WHERE chat_id = :chat_id ORDER BY created_at ASC").bindparams(
             chat_id=chat_id
         )
         result = await session.execute(stmt)
