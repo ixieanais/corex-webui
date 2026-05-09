@@ -20,7 +20,7 @@ async def api_assistant_typing(schema: ChatRequest):
         text_generation(
             chat_id=schema.id,
             model=schema.model,
-            chat_history=messages,
+            history=messages,
             web_search=schema.search,
         ),
         media_type="text/event-stream",
