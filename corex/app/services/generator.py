@@ -4,13 +4,14 @@ from database import crud
 
 
 async def text_generation(
-    chat_id: str,
+    msg_id: str,
     model: str,
     history: list[dict],
     system_msg: str | None = None,
     web_search: bool = False,
     agent: bool = False
 ):
+    full_content = ""
     try:
         client = AsyncClient()
         message = history[-1]["content"]
@@ -28,10 +29,11 @@ async def text_generation(
             results = search(message)
 
         messages = []
+
         if system_msg:
             messages.append({"role": "system", "content": system_msg})
 
-        messages.append({"role": item["role"], "content": item["content"]} for item in history)
+        messages.extend([{"role": item["role"], "content": item["content"]} for item in history])
 
         if results:
             messages.append({"role": "user", "type": "search", "content": f"Search results: {results}"})
@@ -43,8 +45,12 @@ async def text_generation(
         ):
             content = chunk.message.content
             yield content
-            await crud.update_message(chat_id, content)
+
+            if content != "":
+                full_content += content
+                await crud.update_message(msg_id, full_content)
 
     except Exception as e:
         yield f"ERROR: {e}"
-        await crud.update_message(chat_id, f"ERROR: {e}")
+        print(e)
+        await crud.update_message(msg_id, f"ERROR: {e}")
