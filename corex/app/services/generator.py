@@ -43,7 +43,11 @@ async def text_generation(
             messages=messages,
             stream=True,
         ):
+            if not chunk.message.content and not chunk.message.thinking:
+                continue
+
             content = chunk.message.content
+            content = content if content else chunk.message.thinking
             yield content
 
             if content != "":
