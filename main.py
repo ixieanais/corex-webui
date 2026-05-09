@@ -1,3 +1,3 @@
 import subprocess
 
-subprocess.run("cd corex && python app.py", shell=True)
+subprocess.run("cd corex/app && python app.py", shell=True)
