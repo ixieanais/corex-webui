@@ -8,8 +8,8 @@
 [![Discord](https://img.shields.io/discord/1391770662028447815?label=Discord&logo=Discord&logoColor=white&style=for-the-badge)](https://discord.gg/zs6u4TD8MX)
 [![Ollama](https://img.shields.io/badge/Ollama-white?style=for-the-badge)](https://ollama.com/)
 ![Python](https://img.shields.io/badge/Python-3.11+-blue?style=for-the-badge)
-![Github license](https://img.shields.io/github/license/hevnee/corex-webui?style=for-the-badge&cacheSeconds=300)
-![Github last commit](https://img.shields.io/github/last-commit/hevnee/corex-webui?style=for-the-badge&cacheSeconds=300)
+![Github license](https://img.shields.io/github/license/ixieanais/corex-webui?style=for-the-badge&cacheSeconds=300)
+![Github last commit](https://img.shields.io/github/last-commit/ixieanais/corex-webui?style=for-the-badge&cacheSeconds=300)
 
 </div>
 
@@ -34,7 +34,7 @@ Follow these steps to get corex-webui up and running:
 
 ```bash
 # Clone repository
-git clone https://github.com/hevnee/corex-webui
+git clone https://github.com/ixieanais/corex-webui
 cd corex-webui
 
 # Install dependencies
@@ -65,5 +65,5 @@ We welcome contributions! To get started:
 
 ## License
 
-Copyright © 2025 [hevnee](https://github.com/hevnee).<br/>
+Copyright © 2025 [ixieanais](https://github.com/ixieanais).<br/>
 Corex is [MIT](https://choosealicense.com/licenses/mit) licensed.
